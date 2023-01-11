@@ -1,6 +1,7 @@
 import { Sequelize } from "sequelize-typescript";
 import Id from "../../@shared/domain/value-object/id.value-object";
 import Product from "../domain/product.entity";
+import ProductAdmFacadeFactory from "../factory/facade.factory";
 import ProductModel from "../repository/product.model";
 import ProductRepository from "../repository/product.repository";
 import AddProductUseCase from "../usecase/add-product/add-product.usecase";
@@ -26,14 +27,7 @@ describe("ProductAdmFacade test", () => {
     await sequelize.close();
   });
   it("should create a product", async () => {
-    const productRepository = new ProductRepository();
-
-    const addProductRepository = new AddProductUseCase(productRepository);
-
-    const productFacade = new ProductAdmFacade({
-      addProductUseCase: addProductRepository,
-      checkStockUseCase: undefined,
-    });
+    const productFacade = ProductAdmFacadeFactory.create();
 
     const input = {
       id: "1",
@@ -52,5 +46,28 @@ describe("ProductAdmFacade test", () => {
     expect(product.name).toEqual("Product 1");
     expect(product.purchasePrice).toEqual(100);
     expect(product.stock).toEqual(10);
+  });
+
+  it("should check stock a product", async () => {
+    const productFacade = ProductAdmFacadeFactory.create();
+
+    ProductModel.create({
+      id: "1",
+      name: "Product 1",
+      description: "Description 1",
+      purchasePrice: 100,
+      stock: 10,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    });
+
+    const input = {
+      productId: "1",
+    };
+
+    const result = await productFacade.checkStock(input);
+
+    expect(result.productId).toBe("1");
+    expect(result.stock).toBe(10);
   });
 });
