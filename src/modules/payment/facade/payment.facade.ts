@@ -2,7 +2,7 @@ import UseCaseInterface from "../../@shared/usecase/use-case.interface";
 import PaymentFacadeInterface, {
   InputPaymentFacadeDto,
   OutputPaymentFacadeDto,
-} from "./facade.interface";
+} from "./payment.facade.interface";
 
 export default class PaymentFacade implements PaymentFacadeInterface {
   constructor(private readonly processPaymentUseCase: UseCaseInterface) {}
