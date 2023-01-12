@@ -7,6 +7,7 @@ import {
   InputGenerateInvoiceUseCaseDto,
   OutputGenerateInvoiceUseCaseDto,
 } from "./generate-invoice.dto";
+import Id from "../../../@shared/domain/value-object/id.value-object";
 
 export default class GenerateInvoiceUseCase implements UseCaseInterface {
   constructor(private readonly invoiceRepository: InvoiceGateway) {}
@@ -20,13 +21,18 @@ export default class GenerateInvoiceUseCase implements UseCaseInterface {
       address: new Address({
         city: input.city,
         complement: input.complement,
-        number: input.name,
+        number: input.number,
         state: input.state,
         street: input.street,
         zipCode: input.zipCode,
       }),
       items: input.items.map(
-        (item) => new Product({ name: item.name, price: item.price })
+        (item) =>
+          new Product({
+            id: new Id(item.id),
+            name: item.name,
+            price: item.price,
+          })
       ),
     });
 
@@ -47,6 +53,7 @@ export default class GenerateInvoiceUseCase implements UseCaseInterface {
         name: item.name,
         price: item.price,
       })),
+      total: result.total,
     };
   }
 }
