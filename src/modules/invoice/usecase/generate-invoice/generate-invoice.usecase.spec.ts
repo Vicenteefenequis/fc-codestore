@@ -1,7 +1,7 @@
 import Id from "../../../@shared/domain/value-object/id.value-object";
-import Address from "../../domain/value-object/address";
 import Invoice from "../../domain/entity/invoice";
 import Product from "../../domain/entity/product";
+import Address from "../../domain/value-object/address";
 import InvoiceGateway from "../../gateway/invoice.gateway";
 import GenerateInvoiceUseCase from "./generate-invoice.usecase";
 
@@ -44,19 +44,20 @@ describe("GenerateInvoiceUseCase test unit", () => {
 
     const result = await usecase.execute(input);
 
-    expect(result.id).toBe("1");
-    expect(result.document).toBe("Document 1");
-    expect(result.name).toBe("Invoice 1");
-
-    expect(result.complement).toBe("Complement 1");
-    expect(result.number).toBe("Number 1");
-    expect(result.state).toBe("State 1");
-    expect(result.street).toBe("Street 1");
-    expect(result.zipCode).toBe("ZipCode 1");
+    expect(result.id).toBe(invoice.id.id);
+    expect(result.document).toBe(invoice.document);
+    expect(result.name).toBe(invoice.name);
+    expect(result.complement).toBe(invoice.address.complement);
+    expect(result.number).toBe(invoice.address.number);
+    expect(result.state).toBe(invoice.address.state);
+    expect(result.street).toBe(invoice.address.street);
+    expect(result.zipCode).toBe(invoice.address.zipCode);
 
     expect(result.items.length).toBe(1);
-    expect(result.items[0].id).toBe("1");
-    expect(result.items[0].name).toBe("Product 1");
-    expect(result.items[0].price).toBe(100);
+    expect(result.items[0].id).toBe(invoice.items[0].id.id);
+    expect(result.items[0].name).toBe(invoice.items[0].name);
+    expect(result.items[0].price).toBe(invoice.items[0].price);
+
+    expect(result.total).toBe(invoice.total);
   });
 });
