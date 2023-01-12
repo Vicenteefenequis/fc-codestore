@@ -51,5 +51,6 @@ describe("FindInvoiceUseCase test unit", () => {
     expect(result.items[0].id).toBe("1");
     expect(result.items[0].name).toBe("Product 1");
     expect(result.items[0].price).toBe(100);
+    expect(result.total).toBe(invoice.total);
   });
 });

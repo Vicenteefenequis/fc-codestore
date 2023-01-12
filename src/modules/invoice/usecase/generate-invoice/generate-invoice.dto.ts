@@ -21,6 +21,7 @@ export interface OutputGenerateInvoiceUseCaseDto {
   state: string;
   zipCode: string;
   items: Product[];
+  total: number;
 }
 
 type Product = {

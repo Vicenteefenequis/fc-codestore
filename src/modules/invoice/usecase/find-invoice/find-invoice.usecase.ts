@@ -22,6 +22,8 @@ export default class FindInvoiceUseCase implements UseCaseInterface {
         name: item.name,
         price: item.price,
       })),
+      createdAt: invoice.createdAt,
+      total: invoice.total,
     };
   }
 }

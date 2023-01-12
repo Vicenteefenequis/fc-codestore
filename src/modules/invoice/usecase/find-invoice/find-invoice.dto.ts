@@ -13,6 +13,8 @@ export interface OutputFindInvoiceDto {
   state: string;
   zipCode: string;
   items: Product[];
+  total: number;
+  createdAt: Date;
 }
 
 type Product = {
