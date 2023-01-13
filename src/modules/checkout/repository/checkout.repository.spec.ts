@@ -67,4 +67,43 @@ describe("CheckoutRepository test", () => {
     expect(foundOrder.products[0].salesPrice).toBe(product1.salesPrice);
     expect(foundOrder.products[0].id).toBe(product1.id.id);
   });
+
+  it("should find an order", async () => {
+    const repository = new CheckoutRepository();
+    const input = {
+      id: "1",
+      client: {
+        id: "1c",
+        name: "any_name",
+        address: "any_address",
+        email: "any_email",
+      },
+      products: [
+        {
+          id: "1p",
+          name: "any_product_1",
+          salesPrice: 200,
+          description: "any_description",
+        },
+      ],
+      status: "any_status",
+    };
+
+    await OrderModel.create(input, { include: [ProductModel, ClientModel] });
+
+    const result = await repository.findOrder(input.id);
+
+    expect(result.id.id).toBe(input.id);
+    expect(result.status).toBe(input.status);
+    expect(result.client.name).toBe(input.client.name);
+    expect(result.client.address).toBe(input.client.address);
+    expect(result.client.email).toBe(input.client.email);
+    expect(result.client.name).toBe(input.client.name);
+    expect(result.client.id.id).toBe(input.client.id);
+
+    expect(result.products[0].description).toBe(input.products[0].description);
+    expect(result.products[0].name).toBe(input.products[0].name);
+    expect(result.products[0].salesPrice).toBe(input.products[0].salesPrice);
+    expect(result.products[0].id.id).toBe(input.products[0].id);
+  });
 });
