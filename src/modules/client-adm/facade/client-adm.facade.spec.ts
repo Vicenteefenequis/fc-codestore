@@ -28,7 +28,15 @@ describe("ClientAdmFacade test", () => {
       id: "1",
       name: "Client 1",
       email: "x@x.com",
-      address: "Address 1",
+      city: "City 1",
+      complement: "Complement 1",
+      document: "Document 1",
+      number: "Number 1",
+      state: "State 1",
+      street: "Street 1",
+      zipCode: "ZipCode 1",
+      createdAt: new Date(),
+      updatedAt: new Date(),
     };
 
     await clientFacade.add(input);
@@ -38,18 +46,36 @@ describe("ClientAdmFacade test", () => {
     expect(client.id).toBe(input.id);
     expect(client.name).toEqual(input.name);
     expect(client.email).toEqual(input.email);
-    expect(client.address).toEqual(input.address);
+    expect(client.city).toBe(input.city);
+    expect(client.complement).toBe(input.complement);
+    expect(client.document).toBe(input.document);
+    expect(client.number).toBe(input.number);
+    expect(client.state).toBe(input.state);
+    expect(client.street).toBe(input.street);
+    expect(client.zipCode).toBe(input.zipCode);
+    expect(client.createdAt).toEqual(input.createdAt);
+    expect(client.updatedAt).toEqual(input.updatedAt);
   });
 
   it("should find a product", async () => {
     const clientFacade = ClientAdmFacadeFactory.create();
 
-    await clientFacade.add({
+    const props = {
       id: "1",
       name: "Client 1",
       email: "x@x.com",
-      address: "Address 1",
-    });
+      city: "City 1",
+      complement: "Complement 1",
+      document: "Document 1",
+      number: "Number 1",
+      state: "State 1",
+      street: "Street 1",
+      zipCode: "ZipCode 1",
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
+
+    await clientFacade.add(props);
 
     const input = {
       id: "1",
@@ -57,9 +83,17 @@ describe("ClientAdmFacade test", () => {
 
     const result = await clientFacade.find(input);
 
-    expect(result.id).toBe("1");
-    expect(result.name).toBe("Client 1");
-    expect(result.email).toBe("x@x.com");
-    expect(result.address).toBe("Address 1");
+    expect(result.id).toBeDefined();
+    expect(result.name).toEqual(props.name);
+    expect(result.email).toEqual(props.email);
+    expect(result.city).toBe(props.city);
+    expect(result.complement).toBe(props.complement);
+    expect(result.document).toBe(props.document);
+    expect(result.number).toBe(props.number);
+    expect(result.state).toBe(props.state);
+    expect(result.street).toBe(props.street);
+    expect(result.zipCode).toBe(props.zipCode);
+    expect(result.createdAt).toEqual(props.createdAt);
+    expect(result.updatedAt).toEqual(props.updatedAt);
   });
 });
