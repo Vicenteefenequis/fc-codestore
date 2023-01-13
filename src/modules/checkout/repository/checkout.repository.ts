@@ -1,4 +1,7 @@
+import Id from "../../@shared/domain/value-object/id.value-object";
+import Client from "../domain/client.entity";
 import Order from "../domain/order.entity";
+import Product from "../domain/product.entity";
 import CheckoutGateway from "../gateway/checkout.gateway";
 import ClientModel from "./client.model";
 import OrderModel from "./order.model";
@@ -27,6 +30,31 @@ export default class CheckoutRepository implements CheckoutGateway {
     );
   }
   async findOrder(id: string): Promise<Order | null> {
-    return null;
+    const orderModel = await OrderModel.findOne({
+      where: { id },
+      include: [ProductModel, ClientModel],
+    });
+
+    if (!orderModel) return null;
+
+    return new Order({
+      id: new Id(orderModel.id),
+      status: orderModel.status,
+      client: new Client({
+        id: new Id(orderModel.client.id),
+        address: orderModel.client.address,
+        email: orderModel.client.email,
+        name: orderModel.client.name,
+      }),
+      products: orderModel.products.map(
+        (product) =>
+          new Product({
+            id: new Id(product.id),
+            description: product.description,
+            name: product.name,
+            salesPrice: product.salesPrice,
+          })
+      ),
+    });
   }
 }
