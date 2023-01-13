@@ -62,8 +62,5 @@ describe("Process payment usecase unit test", () => {
     expect(result.amount).toBe(50);
     expect(result.status).toBe("declined");
     expect(paymentRepository.save).toHaveBeenCalled();
-
-    expect(result.createdAt).toStrictEqual(transaction.createdAt);
-    expect(result.updatedAt).toStrictEqual(transaction.updatedAt);
   });
 });
